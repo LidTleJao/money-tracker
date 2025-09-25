@@ -10,6 +10,21 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id         Int       @id @default(autoincrement())
+  kind       Kind
+  title      String
+  amount     Decimal   @db.Decimal(10, 2)
+  spendDate  DateTime  // วันที่ใช้จ่าย/รับ (เก็บเป็น date แต่ prisma ใช้ DateTime; เวลาเซ็ตให้เป็น 00:00)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+enum Kind {
+  INCOME
+  EXPENSE
 }
