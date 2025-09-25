@@ -10,7 +10,7 @@ export default function EditPage() {
   const [initial, setInitial] = useState<Transaction>();
   useEffect(() => {
     if (id) {
-      fetch(`/api/transactions/${id}`)
+      fetch(`/api/transaction/${id}`)
         .then((r) => r.json())
         .then(setInitial);
     }

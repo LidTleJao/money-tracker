@@ -18,7 +18,7 @@ export default function TransactionsPage() {
 
   async function del(id: number) {
     if (!confirm("ลบรายการนี้?")) return;
-    await fetch(`/api/transactions/${id}`, { method: "DELETE" });
+    await fetch(`/api/transaction/${id}`, { method: "DELETE" });
     setData((d) =>
       d ? { ...d, items: d.items.filter((i) => i.id !== id) } : d
     );
@@ -28,7 +28,7 @@ export default function TransactionsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">รายการรายรับรายจ่าย</h1>
-        <Link className="btn btn-primary" href="/transactions/new">
+        <Link className="btn btn-primary" href="/transactionsCreate">
           + เพิ่มรายการ
         </Link>
       </div>
@@ -67,7 +67,7 @@ export default function TransactionsPage() {
               <td>{it.title}</td>
               <td className="text-right">฿{Number(it.amount).toFixed(2)}</td>
               <td className="text-right space-x-2">
-                <Link className="btn btn-sm" href={`/transactions/${it.id}`}>
+                <Link className="btn btn-sm" href={`/transaction/${it.id}`}>
                   แก้ไข
                 </Link>
                 <button

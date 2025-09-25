@@ -34,7 +34,7 @@ export default function TransactionForm({
     }
     const method = initial ? "PUT" : "POST";
     const url = initial
-      ? `/api/transactions/${initial.id}`
+      ? `/api/transaction/${initial.id}`
       : `/api/transactions`;
     const res = await fetch(url, {
       method,

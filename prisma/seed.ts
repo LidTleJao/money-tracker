@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Kind } from "@prisma/client";
 import { addDays, startOfMonth } from "date-fns";
 
 const prisma = new PrismaClient();
@@ -19,9 +19,17 @@ async function main() {
     const start = startOfMonth(base);
     const items = [];
     for (let i = 0; i < 20; i++) {
-      const isIncome = Math.random() < 0.35; // 35% เป็นรายรับ
+      const isIncome = Math.random() < 0.35;
+      //   items.push({
+      //     kind: isIncome ? "INCOME" : "EXPENSE", // ใช้ string ตาม enum ใน schema
+      //     title: isIncome
+      //       ? `รายรับงานฟรีแลนซ์ #${i + 1}`
+      //       : `ค่าใช้จ่ายทั่วไป #${i + 1}`,
+      //     amount: (isIncome ? rand(500, 3000) : rand(50, 800)).toFixed(2),
+      //     spendDate: addDays(start, rand(0, 27)),
+      //   });
       items.push({
-        kind: isIncome ? "INCOME" : "EXPENSE",
+        kind: isIncome ? Kind.INCOME : Kind.EXPENSE, // ✅ ใช้ enum
         title: isIncome
           ? `รายรับงานฟรีแลนซ์ #${i + 1}`
           : `ค่าใช้จ่ายทั่วไป #${i + 1}`,
@@ -32,7 +40,7 @@ async function main() {
     await prisma.transaction.createMany({ data: items });
   }
 
-  console.log("Seeded 2 months x 20 records");
+  console.log("✅ Seeded 2 months x 20 records");
 }
 
 main().finally(() => prisma.$disconnect());
